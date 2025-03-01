@@ -3,8 +3,7 @@
  */
 package za.co.sindi.email.impl;
 
-import javax.activation.DataSource;
-
+import jakarta.activation.DataSource;
 import za.co.sindi.email.AbstractAttachment;
 
 /**
@@ -17,7 +16,7 @@ public class InlineAttachment extends AbstractAttachment {
 	private String contentID;
 	
 	/**
-	 * @param disposition
+	 * @param contentID
 	 * @param fileName
 	 * @param dataSource
 	 */

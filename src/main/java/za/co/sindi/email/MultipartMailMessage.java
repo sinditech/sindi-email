@@ -15,13 +15,21 @@ import za.co.sindi.email.exception.MailException;
  */
 public interface MultipartMailMessage extends MailMessage {
 
-	public void attach(File file) throws MailException;
+	default void attach(File file) throws MailException {
+		attach(file, null);
+	}
 	public void attach(File file, String description) throws MailException;
-	public void attach(URL url, String name) throws MailException;
+	default void attach(URL url, String name) throws MailException {
+		attach(url, name, null);
+	}
 	public void attach(URL url, String name, String description) throws MailException;
-	public void embed(String contentID, File file) throws MailException;
+	default void embed(String contentID, File file) throws MailException {
+		embed(contentID, file, null);
+	}
 	public void embed(String contentID, File file, String description) throws MailException;
-	public void embed(String contentID, URL url, String name) throws MailException;
+	default void embed(String contentID, URL url, String name) throws MailException {
+		embed(contentID, url, name, null);
+	}
 	public void embed(String contentID, URL url, String name, String description) throws MailException;
 	public void setContent(String content, String subType, String charsetName);
 }

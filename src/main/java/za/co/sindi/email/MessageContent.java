@@ -5,7 +5,7 @@ package za.co.sindi.email;
 
 /**
  * @author Bienfait Sindi
- * @snce 20 April 2014
+ * @since 20 April 2014
  *
  */
 public interface MessageContent<T> {

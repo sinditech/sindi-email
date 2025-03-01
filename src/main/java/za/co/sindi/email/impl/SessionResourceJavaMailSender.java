@@ -3,9 +3,8 @@
  */
 package za.co.sindi.email.impl;
 
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Session;
 import za.co.sindi.email.AbstractJavaMailSender;
 
 /**

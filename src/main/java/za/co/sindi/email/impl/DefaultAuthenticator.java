@@ -3,8 +3,8 @@
  */
 package za.co.sindi.email.impl;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
 
 /**
  * @author Buhake Sindi

@@ -3,20 +3,16 @@
  */
 package za.co.sindi.email;
 
-import java.io.File;
-import java.net.URL;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.Session;
-import javax.mail.internet.MimeBodyPart;
-
-import za.co.sindi.common.utils.Strings;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.mail.BodyPart;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.Part;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeBodyPart;
+import za.co.sindi.commons.utils.Strings;
 import za.co.sindi.email.exception.MailException;
 
 /**
@@ -24,52 +20,16 @@ import za.co.sindi.email.exception.MailException;
  * @since 19 April 2014
  *
  */
-public abstract class JavaMultipartMailMessage extends AbstractJavaMailMessage implements MultipartMailMessage {
+public abstract class AbstractJavaMultipartMailMessage extends AbstractJavaMailMessage implements MultipartMailMessage {
 
 	private boolean multipartMessageCreated;
 	
 	/**
 	 * @param session
 	 */
-	protected JavaMultipartMailMessage(Session session) {
+	protected AbstractJavaMultipartMailMessage(Session session) {
 		super(session);
 		// TODO Auto-generated constructor stub
-	}
-
-	/* (non-Javadoc)
-	 * @see za.co.sindi.email.MultipartMailMessage#attach(java.io.File)
-	 */
-	@Override
-	public void attach(File file) throws MailException {
-		// TODO Auto-generated method stub
-		attach(file, null);
-	}
-
-	/* (non-Javadoc)
-	 * @see za.co.sindi.email.MultipartMailMessage#attach(java.net.URL, java.lang.String)
-	 */
-	@Override
-	public void attach(URL url, String name) throws MailException {
-		// TODO Auto-generated method stub
-		attach(url, name, null);
-	}
-
-	/* (non-Javadoc)
-	 * @see za.co.sindi.email.MultipartMailMessage#embed(java.lang.String, java.io.File)
-	 */
-	@Override
-	public void embed(String contentID, File file) throws MailException {
-		// TODO Auto-generated method stub
-		embed(contentID, file, null);
-	}
-
-	/* (non-Javadoc)
-	 * @see za.co.sindi.email.MultipartMailMessage#embed(java.lang.String, java.net.URL, java.lang.String)
-	 */
-	@Override
-	public void embed(String contentID, URL url, String name) throws MailException {
-		// TODO Auto-generated method stub
-		embed(contentID, url, name, null);
 	}
 	
 	/* (non-Javadoc)
@@ -79,6 +39,21 @@ public abstract class JavaMultipartMailMessage extends AbstractJavaMailMessage i
 	public void setText(String text, String charsetName) throws MailException {
 		// TODO Auto-generated method stub
 		setContent(text, "plain", charsetName);
+	}
+	
+	/* (non-Javadoc)
+	 * @see za.co.sindi.email.AbstractJavaMailMessage#getMessage()
+	 */
+	@Override
+	public Message getMessage() throws MailException {
+		// TODO Auto-generated method stub
+		Message message = super.getMessage();
+		if (!multipartMessageCreated) {
+			createMultipartMessage(message);
+			multipartMessageCreated = true;
+		}
+		
+		return message;
 	}
 
 	protected void setText(Multipart multipart, String text, String charset, String subType) throws MessagingException {
@@ -134,19 +109,4 @@ public abstract class JavaMultipartMailMessage extends AbstractJavaMailMessage i
 	}
 	
 	public abstract void createMultipartMessage(Message message) throws MailException;
-
-	/* (non-Javadoc)
-	 * @see za.co.sindi.email.AbstractJavaMailMessage#getMessage()
-	 */
-	@Override
-	public Message getMessage() throws MailException {
-		// TODO Auto-generated method stub
-		Message message = super.getMessage();
-		if (!multipartMessageCreated) {
-			createMultipartMessage(message);
-			multipartMessageCreated = true;
-		}
-		
-		return message;
-	}
 }

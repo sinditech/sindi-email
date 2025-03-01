@@ -3,9 +3,8 @@
  */
 package za.co.sindi.email;
 
-import javax.mail.Address;
-import javax.mail.Message;
-
+import jakarta.mail.Address;
+import jakarta.mail.Message;
 import za.co.sindi.email.exception.MailAddressException;
 import za.co.sindi.email.exception.MailException;
 

@@ -3,7 +3,7 @@
  */
 package za.co.sindi.email;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 
 /**
  * @author Bienfait Sindi

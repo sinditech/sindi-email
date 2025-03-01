@@ -4,21 +4,23 @@
 package za.co.sindi.email;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.event.ConnectionListener;
-import javax.mail.event.TransportListener;
-
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.event.ConnectionListener;
+import jakarta.mail.event.TransportListener;
+import za.co.sindi.email.exception.MailException;
 import za.co.sindi.email.exception.MailSendException;
-import za.co.sindi.email.impl.HTMLJavaMultipartMailMessage;
-import za.co.sindi.email.impl.SimpleJavaMailMessage;
+import za.co.sindi.email.impl.HTMLMultipartJavaMailMessage;
+import za.co.sindi.email.impl.PlainTextJavaMailMessage;
 
 /**
  * @author Bienfait Sindi
@@ -29,20 +31,6 @@ public abstract class AbstractJavaMailSender implements JavaMailSender {
 
 	protected final Logger LOGGER = Logger.getLogger(this.getClass().getName());
 	private Transport transport;
-
-//	/**
-//	 * 
-//	 */
-//	public AbstractJavaMailSender() {
-//		super();
-//		// TODO Auto-generated constructor stub
-//		try {
-//			initializeTransportIfNecessary();
-//		} catch (NoSuchProviderException e) {
-//			// TODO Auto-generated catch block
-//			LOGGER.log(Level.SEVERE, "Error creating JavaMail Transport.", e);
-//		}
-//	}
 
 	/* (non-Javadoc)
 	 * @see za.co.sindi.email.MailSender#isDebug()
@@ -122,18 +110,18 @@ public abstract class AbstractJavaMailSender implements JavaMailSender {
 	 * @see za.co.sindi.email.MailSender#createSimpleMailMessage()
 	 */
 	@Override
-	public JavaMailMessage createSimpleMailMessage() {
+	public JavaMailMessage createPlaintextMailMessage() {
 		// TODO Auto-generated method stub
-		return new SimpleJavaMailMessage(getSession());
+		return new PlainTextJavaMailMessage(getSession());
 	}
 
 	/* (non-Javadoc)
 	 * @see za.co.sindi.email.MailSender#createHTMLMailMessage()
 	 */
 	@Override
-	public JavaMultipartMailMessage createHTMLMailMessage() {
+	public AbstractJavaMultipartMailMessage createMultipartMailMessage() {
 		// TODO Auto-generated method stub
-		return new HTMLJavaMultipartMailMessage(getSession());
+		return new HTMLMultipartJavaMailMessage(getSession());
 	}
 
 	/* (non-Javadoc)
@@ -146,18 +134,17 @@ public abstract class AbstractJavaMailSender implements JavaMailSender {
 			throw new IllegalArgumentException("No mail messages were provided.");
 		}
 		
-//		List<Message> messages = new ArrayList<Message>();
-//		try {
-//			for (JavaMailMessage mailMessage : mailMessages) {
-//				messages.add(mailMessage.getMessage());
-//			}
-//		} catch (MailException e) {
-//			// TODO Auto-generated catch block
-//			throw new MailSendException(e);
-//		}
-//		
-//		send(messages.toArray(new Message[messages.size()]));
-		send((Message[])mailMessages);
+		List<Message> messages = new ArrayList<Message>();
+		try {
+			for (JavaMailMessage mailMessage : mailMessages) {
+				messages.add(mailMessage.getMessage());
+			}
+		} catch (MailException e) {
+			// TODO Auto-generated catch block
+			throw new MailSendException(e);
+		}
+		
+		send(messages.toArray(new Message[messages.size()]));
 	}
 	
 	/* (non-Javadoc)
@@ -195,16 +182,7 @@ public abstract class AbstractJavaMailSender implements JavaMailSender {
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			throw new MailSendException(e);
-		} /* finally {
-			if (transport != null) {
-				try {
-					transport.close();
-				} catch (MessagingException e) {
-					// TODO Auto-generated catch block
-					LOGGER.log(Level.WARNING, "Error closing JavaMail Transport.", e);
-				}
-			}
-		} */
+		}
 	}
 
 	/* (non-Javadoc)

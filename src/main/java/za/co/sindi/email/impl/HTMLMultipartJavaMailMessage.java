@@ -8,17 +8,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.activation.FileDataSource;
-import javax.activation.URLDataSource;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
-
-import za.co.sindi.common.utils.Strings;
-import za.co.sindi.email.JavaMultipartMailMessage;
+import jakarta.activation.FileDataSource;
+import jakarta.activation.URLDataSource;
+import jakarta.mail.BodyPart;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMultipart;
+import za.co.sindi.commons.utils.Strings;
+import za.co.sindi.email.AbstractJavaMultipartMailMessage;
 import za.co.sindi.email.MessageContent;
 import za.co.sindi.email.exception.MailException;
 
@@ -27,7 +26,7 @@ import za.co.sindi.email.exception.MailException;
  * @since 20 April 2014
  *
  */
-public class HTMLJavaMultipartMailMessage extends JavaMultipartMailMessage {
+public class HTMLMultipartJavaMailMessage extends AbstractJavaMultipartMailMessage {
 
 	private static final String HTML_START_MESSAGE = "<html>" + 
 													 "	<body>" +
@@ -43,7 +42,7 @@ public class HTMLJavaMultipartMailMessage extends JavaMultipartMailMessage {
 	/**
 	 * @param session
 	 */
-	public HTMLJavaMultipartMailMessage(Session session) {
+	public HTMLMultipartJavaMailMessage(Session session) {
 		super(session);
 		// TODO Auto-generated constructor stub
 		attachments = new ArrayList<Attachment>();
@@ -131,13 +130,13 @@ public class HTMLJavaMultipartMailMessage extends JavaMultipartMailMessage {
 				subType = "related";
 			}
 			
-			MimeMultipart rootContent = new MimeMultipart(subType);
+			MimeMultipart rootContent = null; //new MimeMultipart(subType);
 			if ("alternative".equals(subType)) {
-				createAlternativeMimeBodyPart(rootContent);
+				rootContent = createAlternativeMimeBodyPart();
 			} else if ("mixed".equals(subType)) {
-				createMixedMimeBodyPart(rootContent);
+				rootContent = createMixedMimeBodyPart();
 			} else if ("related".equals(subType)) {
-				createRelatedMimeBodyPart(rootContent);
+				rootContent = createRelatedMimeBodyPart();
 			}
 			
 			message.setContent(rootContent);
@@ -147,45 +146,51 @@ public class HTMLJavaMultipartMailMessage extends JavaMultipartMailMessage {
 		}
 	}
 	
-	private void createMixedMimeBodyPart(MimeMultipart rootContent) throws MessagingException {
+	private MimeMultipart createMixedMimeBodyPart() throws MessagingException {
+		MimeMultipart mixedContent = new MimeMultipart("mixed");
 		MimeMultipart bodyContent = null;
 		
-		if (textContent == null) {
-			bodyContent = new MimeMultipart("alternative");
-			createAlternativeMimeBodyPart(bodyContent);
+		if (textContent != null) { //was textContent == null
+			bodyContent = createAlternativeMimeBodyPart();
 		} else {
-			bodyContent = new MimeMultipart("related");
-			createRelatedMimeBodyPart(bodyContent);
+			bodyContent = createRelatedMimeBodyPart();
 		}
 		
 		BodyPart bodyPart = new MimeBodyPart();
 		bodyPart.setContent(bodyContent);
-		rootContent.addBodyPart(bodyPart);
+		mixedContent.addBodyPart(bodyPart);
 		
 		//Add attachment
 		for (Attachment attachment : attachments) {
-			attach(rootContent, attachment.getDataSource(), attachment.getFileName(), attachment.getDescription());
+			attach(mixedContent, attachment.getDataSource(), attachment.getFileName(), attachment.getDescription());
 		}
+		
+		return mixedContent;
 	}
 	
-	private void createAlternativeMimeBodyPart(MimeMultipart rootContent) throws MessagingException {
-		setText(rootContent, textContent.getContent(), textContent.getCharset(), textContent.getSubType());
+	private MimeMultipart createAlternativeMimeBodyPart() throws MessagingException {
+		MimeMultipart alternativeContent = new MimeMultipart("alternative");
+		
+		setText(alternativeContent, textContent.getContent(), textContent.getCharset(), textContent.getSubType());
 		if (inlineAttachments == null || inlineAttachments.isEmpty()) {
-			setText(rootContent, htmlContent.getContent(), htmlContent.getCharset(), htmlContent.getSubType());
+			setText(alternativeContent, htmlContent.getContent(), htmlContent.getCharset(), htmlContent.getSubType());
 		} else {
-			MimeMultipart relatedContent = new MimeMultipart("related");
-			createRelatedMimeBodyPart(relatedContent);
 			BodyPart relatedBodyPart = new MimeBodyPart();
-			relatedBodyPart.setContent(relatedContent);
-			rootContent.addBodyPart(relatedBodyPart);
+			relatedBodyPart.setContent(createRelatedMimeBodyPart());
+			alternativeContent.addBodyPart(relatedBodyPart);
 		}
+		
+		return alternativeContent;
 	}
 	
-	private void createRelatedMimeBodyPart(MimeMultipart related) throws MessagingException {
-		setText(related, htmlContent.getContent(), htmlContent.getCharset(), htmlContent.getSubType());
+	private MimeMultipart createRelatedMimeBodyPart() throws MessagingException {
+		MimeMultipart relatedContent = new MimeMultipart("related");
+		setText(relatedContent, htmlContent.getContent(), htmlContent.getCharset(), htmlContent.getSubType());
 		
 		for (InlineAttachment inline : inlineAttachments) {
-			embed(related, inline.getDataSource(), inline.getContentID(), inline.getFileName());
+			embed(relatedContent, inline.getDataSource(), inline.getContentID(), inline.getFileName());
 		}
+		
+		return relatedContent;
 	}
 }

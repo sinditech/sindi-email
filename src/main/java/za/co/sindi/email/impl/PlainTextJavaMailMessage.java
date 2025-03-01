@@ -3,11 +3,10 @@
  */
 package za.co.sindi.email.impl;
 
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
-
-import za.co.sindi.common.utils.Strings;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+import za.co.sindi.commons.utils.Strings;
 import za.co.sindi.email.AbstractJavaMailMessage;
 import za.co.sindi.email.exception.MailException;
 
@@ -16,12 +15,12 @@ import za.co.sindi.email.exception.MailException;
  * @since 18 April 2014
  *
  */
-public class SimpleJavaMailMessage extends AbstractJavaMailMessage {
+public class PlainTextJavaMailMessage extends AbstractJavaMailMessage {
 
 	/**
 	 * @param session
 	 */
-	public SimpleJavaMailMessage(Session session) {
+	public PlainTextJavaMailMessage(Session session) {
 		super(session);
 		// TODO Auto-generated constructor stub
 	}

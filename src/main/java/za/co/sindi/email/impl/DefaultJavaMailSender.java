@@ -8,9 +8,8 @@ import static za.co.sindi.email.Constants.SMTP_DEFAULT_PORT;
 
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.Session;
-
+import jakarta.mail.Authenticator;
+import jakarta.mail.Session;
 import za.co.sindi.email.AbstractJavaMailSender;
 
 /**

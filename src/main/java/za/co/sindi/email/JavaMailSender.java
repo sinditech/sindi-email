@@ -5,10 +5,9 @@ package za.co.sindi.email;
 
 import java.io.PrintStream;
 
-import javax.mail.Message;
-import javax.mail.event.ConnectionListener;
-import javax.mail.event.TransportListener;
-
+import jakarta.mail.Message;
+import jakarta.mail.event.ConnectionListener;
+import jakarta.mail.event.TransportListener;
 import za.co.sindi.email.exception.MailSendException;
 
 /**
@@ -16,7 +15,7 @@ import za.co.sindi.email.exception.MailSendException;
  * @since 18 April 2014
  *
  */
-public interface JavaMailSender extends MailSender<JavaMailMessage, JavaMultipartMailMessage> {
+public interface JavaMailSender extends MailSender<JavaMailMessage, AbstractJavaMultipartMailMessage> {
 
 	public boolean isDebug();
 	public void setDebug(boolean debug);

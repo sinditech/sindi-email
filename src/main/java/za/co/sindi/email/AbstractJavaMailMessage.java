@@ -14,17 +14,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.mail.Address;
-import javax.mail.Header;
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import za.co.sindi.common.utils.Strings;
+import jakarta.mail.Address;
+import jakarta.mail.Header;
+import jakarta.mail.Message;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import za.co.sindi.commons.utils.Strings;
 import za.co.sindi.email.exception.MailAddressException;
 import za.co.sindi.email.exception.MailException;
 
@@ -38,7 +37,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	private MimeMessage message;
 	
 	/**
-	 * @param seession
+	 * @param session
 	 */
 	protected AbstractJavaMailMessage(Session session) {
 		super();
@@ -154,10 +153,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 		// TODO Auto-generated method stub
 		try {
 			addTo(createInternetAddress(emailAddress, displayName, charsetName));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			throw new MailAddressException(e);
-		} catch (AddressException e) {
+		} catch (UnsupportedEncodingException | AddressException e) {
 			// TODO Auto-generated catch block
 			throw new MailAddressException(e);
 		}
@@ -201,10 +197,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 		// TODO Auto-generated method stub
 		try {
 			addCC(createInternetAddress(emailAddress, displayName, charsetName));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			throw new MailAddressException(e);
-		} catch (AddressException e) {
+		} catch (UnsupportedEncodingException | AddressException e) {
 			// TODO Auto-generated catch block
 			throw new MailAddressException(e);
 		}
@@ -248,10 +241,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 		// TODO Auto-generated method stub
 		try {
 			addBCC(createInternetAddress(emailAddress, displayName, charsetName));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			throw new MailAddressException(e);
-		} catch (AddressException e) {
+		} catch (UnsupportedEncodingException | AddressException e) {
 			// TODO Auto-generated catch block
 			throw new MailAddressException(e);
 		}
@@ -313,7 +303,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 		try {
 			if (address != null) {
 				Address[] addresses = message.getReplyTo();
-				List<Address> addressList = addresses != null ? new ArrayList<Address>(Arrays.asList(addresses)) : new ArrayList<Address>();
+				List<Address> addressList = addresses != null ? Arrays.asList(addresses) : new ArrayList<Address>();
 				addressList.add(address);
 				message.setReplyTo(addressList.toArray(new Address[addressList.size()]));
 			}
@@ -449,7 +439,6 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 		Set<String> headerSet = new TreeSet<String>();
 		
 		try {
-			@SuppressWarnings("unchecked")
 			Enumeration<Header> enumerations = message.getAllHeaders();
 			while (enumerations.hasMoreElements()) {
 				Header header = enumerations.nextElement();
@@ -488,7 +477,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 
 	protected InternetAddress createInternetAddress(String emailAddress, String displayName, String charset) throws AddressException, UnsupportedEncodingException {
 		InternetAddress address = new InternetAddress(emailAddress, true);
-		if (!Strings.isNullOrEmpty(charset)) {
+		if (Strings.isNullOrEmpty(charset)) {
 			address.setPersonal(displayName);
 		} else {
 			address.setPersonal(displayName, charset);
