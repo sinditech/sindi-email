@@ -3,19 +3,20 @@
  */
 package za.co.sindi.email.impl;
 
+import java.util.Properties;
+
+import jakarta.mail.Authenticator;
 import jakarta.mail.NoSuchProviderException;
 import jakarta.mail.Session;
-import za.co.sindi.email.AbstractJavaMailSender;
+import za.co.sindi.email.AbstractJavaTransportMailSender;
 
 /**
  * @author Bienfait Sindi
  * @since 28 December 2015
  *
  */
-public class SessionResourceJavaMailSender extends AbstractJavaMailSender {
+public class SessionResourceJavaMailSender extends AbstractJavaTransportMailSender {
 
-	private Session session;
-	
 	/**
 	 * @param session
 	 * @throws NoSuchProviderException 
@@ -28,13 +29,23 @@ public class SessionResourceJavaMailSender extends AbstractJavaMailSender {
 		this.session = session;
 		initializeTransportIfNecessary();
 	}
-
-	/* (non-Javadoc)
-	 * @see za.co.sindi.email.AbstractJavaMailSender#getSession()
-	 */
-	@Override
-	protected Session getSession() {
-		// TODO Auto-generated method stub
-		return session;
+	
+	public SessionResourceJavaMailSender(Properties properties) throws NoSuchProviderException {
+		this(properties, null);
+		if (properties == null) {
+			throw new IllegalArgumentException("No JavaMail properties was provided..");
+		}
+		this.session = Session.getDefaultInstance(properties);
+		initializeTransportIfNecessary();
+	}
+	
+	public SessionResourceJavaMailSender(Properties properties, Authenticator authenticator) throws NoSuchProviderException {
+		super();
+		if (properties == null) {
+			throw new IllegalArgumentException("No JavaMail properties was provided..");
+		}
+		
+		this.session = authenticator == null ? Session.getDefaultInstance(properties) : Session.getDefaultInstance(properties, authenticator);
+		initializeTransportIfNecessary();
 	}
 }

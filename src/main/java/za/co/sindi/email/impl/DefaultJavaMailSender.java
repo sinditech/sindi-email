@@ -10,14 +10,14 @@ import java.util.Properties;
 
 import jakarta.mail.Authenticator;
 import jakarta.mail.Session;
-import za.co.sindi.email.AbstractJavaMailSender;
+import za.co.sindi.email.AbstractJavaTransportMailSender;
 
 /**
  * @author Bienfait Sindi
  * @since 18 April 2014
  *
  */
-public class DefaultJavaMailSender extends AbstractJavaMailSender {
+public class DefaultJavaMailSender extends AbstractJavaTransportMailSender {
 
 	private Authenticator authenticator;
 	private String protocol = "smtp";
@@ -32,7 +32,6 @@ public class DefaultJavaMailSender extends AbstractJavaMailSender {
 	private boolean startTTLSRequired;
 	private boolean sendPartial;
 	private boolean sslCheckServerIdentity;
-	private Session session;
 	
 	/**
 	 * @param host
@@ -130,10 +129,11 @@ public class DefaultJavaMailSender extends AbstractJavaMailSender {
 	}
 
 	/* (non-Javadoc)
-	 * @see za.co.sindi.email.AbstractJavaMailSender#getSession()
+	 * @see za.co.sindi.email.AbstractJavaMailSender#ensureSession()
 	 */
+	
 	@Override
-	protected Session getSession() {
+	protected void ensureSession() {
 		// TODO Auto-generated method stub
 		if (session == null){
 			Properties properties = new Properties();
@@ -183,7 +183,5 @@ public class DefaultJavaMailSender extends AbstractJavaMailSender {
 				session = Session.getDefaultInstance(properties);
 			}
 		}
-		
-		return session;
 	}
 }
