@@ -96,16 +96,6 @@ public abstract class AbstractJavaMailSender implements JavaMailSender {
 		send(messages.toArray(new Message[messages.size()]));
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.AutoCloseable#close()
-	 */
-	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
-		//Nullify session
-		session = null;
-	}
-
 	protected void ensureSession() {
 		if (session == null) {
 			throw new IllegalStateException("Java mail Session is null.");

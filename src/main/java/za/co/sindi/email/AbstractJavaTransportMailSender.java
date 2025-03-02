@@ -121,8 +121,6 @@ public abstract class AbstractJavaTransportMailSender extends AbstractJavaMailSe
 		} finally {
 			transport = null;
 		}
-		
-		super.close();
 	}
 
 	protected void initializeTransportIfNecessary() throws NoSuchProviderException {
