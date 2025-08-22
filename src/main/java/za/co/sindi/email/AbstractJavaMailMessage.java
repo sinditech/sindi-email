@@ -80,7 +80,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#getFrom()
 	 */
 	@Override
-	public Address getFrom() throws MailAddressException {
+	public Address getFrom() /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		Address[] from = null;
 		
@@ -102,7 +102,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.MailMessage#setFrom(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setFrom(String emailAddress, String displayName, String charsetName) throws MailAddressException {
+	public void setFrom(String emailAddress, String displayName, String charsetName) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			setFrom(createInternetAddress(emailAddress, displayName, charsetName));
@@ -119,7 +119,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#setFrom(javax.mail.Address)
 	 */
 	@Override
-	public void setFrom(Address address) throws MailAddressException {
+	public void setFrom(Address address) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			if (address != null) {
@@ -135,7 +135,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#getTo()
 	 */
 	@Override
-	public Address[] getTo() throws MailAddressException {
+	public Address[] getTo() /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			return message.getRecipients(RecipientType.TO);
@@ -149,7 +149,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.MailMessage#addTo(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addTo(String emailAddress, String displayName, String charsetName) throws MailAddressException {
+	public void addTo(String emailAddress, String displayName, String charsetName) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			addTo(createInternetAddress(emailAddress, displayName, charsetName));
@@ -163,7 +163,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#addTo(javax.mail.Address)
 	 */
 	@Override
-	public void addTo(Address address) throws MailAddressException {
+	public void addTo(Address address) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			if (address != null) {
@@ -179,7 +179,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#getCC()
 	 */
 	@Override
-	public Address[] getCC() throws MailAddressException {
+	public Address[] getCC() /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			return message.getRecipients(RecipientType.CC);
@@ -193,7 +193,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.MailMessage#addCC(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addCC(String emailAddress, String displayName, String charsetName) throws MailAddressException {
+	public void addCC(String emailAddress, String displayName, String charsetName) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			addCC(createInternetAddress(emailAddress, displayName, charsetName));
@@ -207,7 +207,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#addCC(javax.mail.Address)
 	 */
 	@Override
-	public void addCC(Address address) throws MailAddressException {
+	public void addCC(Address address) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			if (address != null) {
@@ -223,7 +223,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#getBCC()
 	 */
 	@Override
-	public Address[] getBCC() throws MailAddressException {
+	public Address[] getBCC() /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			return message.getRecipients(RecipientType.BCC);
@@ -237,7 +237,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.MailMessage#addBCC(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addBCC(String emailAddress, String displayName, String charsetName) throws MailAddressException {
+	public void addBCC(String emailAddress, String displayName, String charsetName) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			addBCC(createInternetAddress(emailAddress, displayName, charsetName));
@@ -251,7 +251,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#addBCC(javax.mail.Address)
 	 */
 	@Override
-	public void addBCC(Address address) throws MailAddressException {
+	public void addBCC(Address address) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			if (address != null) {
@@ -267,7 +267,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#getReplyTo()
 	 */
 	@Override
-	public Address[] getReplyTo() throws MailAddressException {
+	public Address[] getReplyTo() /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			return message.getReplyTo();
@@ -281,7 +281,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.MailMessage#addReplyTo(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addReplyTo(String emailAddress, String displayName,	String charsetName) throws MailAddressException {
+	public void addReplyTo(String emailAddress, String displayName,	String charsetName) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			addReplyTo(createInternetAddress(emailAddress, displayName, charsetName));
@@ -298,7 +298,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.JavaMailMessage#addReplyTo(javax.mail.Address)
 	 */
 	@Override
-	public void addReplyTo(Address address) throws MailAddressException {
+	public void addReplyTo(Address address) /* throws MailAddressException */ {
 		// TODO Auto-generated method stub
 		try {
 			if (address != null) {
@@ -331,7 +331,7 @@ public abstract class AbstractJavaMailMessage extends AbstractMailMessage implem
 	 * @see za.co.sindi.email.MailMessage#setSubject(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setSubject(String subject, String charsetName) throws MailException {
+	public void setSubject(String subject, String charsetName) /* throws MailException */ {
 		// TODO Auto-generated method stub
 		try {
 			if (Strings.isNullOrEmpty(charsetName)) {

@@ -8,7 +8,7 @@ package za.co.sindi.email.exception;
  * @since 16 April 2014
  *
  */
-public class MailException extends Exception {
+public class MailException extends RuntimeException {
 
 	/**
 	 * 
