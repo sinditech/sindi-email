@@ -32,11 +32,6 @@ public class SessionResourceJavaMailSender extends AbstractJavaTransportMailSend
 	
 	public SessionResourceJavaMailSender(Properties properties) throws NoSuchProviderException {
 		this(properties, null);
-		if (properties == null) {
-			throw new IllegalArgumentException("No JavaMail properties was provided..");
-		}
-		this.session = Session.getDefaultInstance(properties);
-		initializeTransportIfNecessary();
 	}
 	
 	public SessionResourceJavaMailSender(Properties properties, Authenticator authenticator) throws NoSuchProviderException {
