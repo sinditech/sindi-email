@@ -9,6 +9,7 @@ import static za.co.sindi.email.Constants.SMTP_DEFAULT_PORT;
 import java.util.Properties;
 
 import jakarta.mail.Authenticator;
+import jakarta.mail.NoSuchProviderException;
 import jakarta.mail.Session;
 import za.co.sindi.email.AbstractJavaTransportMailSender;
 
@@ -37,8 +38,9 @@ public class DefaultJavaMailSender extends AbstractJavaTransportMailSender {
 	 * @param host
 	 * @param userName
 	 * @param password
+	 * @throws NoSuchProviderException 
 	 */
-	public DefaultJavaMailSender(String host, String userName, String password) {
+	public DefaultJavaMailSender(String host, String userName, String password) throws NoSuchProviderException {
 		this(host, SMTP_DEFAULT_PORT, userName, password);
 	}
 	
@@ -47,13 +49,15 @@ public class DefaultJavaMailSender extends AbstractJavaTransportMailSender {
 	 * @param port
 	 * @param userName
 	 * @param password
+	 * @throws NoSuchProviderException 
 	 */
-	public DefaultJavaMailSender(String host, int port, String userName, String password) {
+	public DefaultJavaMailSender(String host, int port, String userName, String password) throws NoSuchProviderException {
 		super();
 		this.host = host;
 		this.port = port;
 		this.userName = userName;
 		this.password = password;
+		initializeTransportIfNecessary();
 	}
 	
 	/* (non-Javadoc)
@@ -131,7 +135,6 @@ public class DefaultJavaMailSender extends AbstractJavaTransportMailSender {
 	/* (non-Javadoc)
 	 * @see za.co.sindi.email.AbstractJavaMailSender#ensureSession()
 	 */
-	
 	@Override
 	protected void ensureSession() {
 		// TODO Auto-generated method stub
